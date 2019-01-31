@@ -7,6 +7,7 @@ Module with efficient boolean-list prime testing function.
 ### Functions
 * `allFactors`: returns a list of all factors of an integer `n`
 * `allBaseFactors`: returns a list of all factors of an integer `n`
+* `isPerfect`: checks the sum of `allFactors` after popping the last entry (which is `n`) to see if an integer `n` is perfect
 * `isPrime`: checks the length of either `allBaseFactors` or `allFactors` to see if an integer `n` is prime
 * `primesLessThan`: returns a tuple with a count of and a list of all prime numbers up to a limit of `n`
 * `nextPrime`: returns the next prime number larger than `n`

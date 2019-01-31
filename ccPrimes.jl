@@ -5,6 +5,7 @@ Module with efficient boolean-list prime testing function.
 # Functions
 * `allFactors`: returns a list of all factors of an integer `n`
 * `allBaseFactors`: returns a list of all factors \$\\{x | 1 \\leq x \\leq \\sqrt{n}\\}\$ of an integer `n`
+* `isPerfect`: checks if the sum of an integer `n`'s proper divisors are equal to the integer
 * `isPrime`: checks the length of either `allBaseFactors` or `allFactors` to see if an integer `n` is prime
 * `primesLessThan`: returns a tuple with a count of and a list of all prime numbers \$\\{p | 1 < p < n\\}\$ up to a limit of `n`
 * `nextPrime`: returns the next prime number larger than `n`
@@ -13,7 +14,7 @@ Module with efficient boolean-list prime testing function.
 * `firstNPrimes`: returns a list of the first `n` prime numbers
 """
 module ccPrimes
-	export allFactors, allBaseFactors, isPrime, primesLessThan, nextPrime, prevPrime, primesBetween, firstNPrimes
+	export allFactors, allBaseFactors, isPerfect, isPrime, primesLessThan, nextPrime, prevPrime, primesBetween, firstNPrimes
 
 	argErrorStr = "`n` must be postivie"
 
@@ -55,6 +56,14 @@ module ccPrimes
 		#Find the indices of all true values, the "base" factors,
 		#and return a list of these indices
 		findall(factorBools)
+	end
+
+	"Given an integer `n`, returns a Boolean value indicating if the sum of `n`'s proper divisors is equal to `n`"
+	function isPerfect(n::Integer)
+		n > 0 ? true : throw(ArgumentError(argErrorStr))
+		local properDivisors = allFactors(n)
+		pop!(properDivisors)
+		sum(properDivisors) == n
 	end
 
 	"Given a positive integer `n`, returns a Boolean value indicating if `n` is a prime number"
