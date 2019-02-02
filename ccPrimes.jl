@@ -14,7 +14,7 @@ Module with efficient boolean-list prime testing function.
 * `firstNPrimes`: returns a list of the first `n` prime numbers
 """
 module ccPrimes
-	export allFactors, allBaseFactors, isPerfect, isPrime, primesLessThan, nextPrime, prevPrime, primesBetween, firstNPrimes
+	export allFactors, allBaseFactors, coPrimes, cc_gcd, cc_lcm, aliquotSum, isPerfect, isPrime, primesLessThan, nextPrime, prevPrime, primesBetween, firstNPrimes
 
 	argErrorStr = "`n` must be postivie"
 
@@ -58,12 +58,33 @@ module ccPrimes
 		findall(factorBools)
 	end
 
+	"Given two integers `m` and `n`, returns a Boolean value indicating if the integers have no common factors"
+	function coPrimes(m, n)
+		n > 0 && m > 0 ? true : throw(ArgumentError("`m` and " + argErrorStr))
+		length(intersect(allFactors(m), allFactors(n))) == 1
+	end
+
+	"Given two integers `m` and `n`, returns the greatest common divisor of `m` and `n`"
+	function cc_gcd(m::Integer, n::Integer)
+		n > 0 && m > 0 ? true : throw(ArgumentError("`m` and " + argErrorStr))
+		maximum(intersect(allFactors(m), allFactors(n)))
+	end
+
+	"Given two integers `m` and `n`, returns the least common multiple of `m` and `n`"
+	function cc_lcm(m::Integer, n::Integer)
+		n > 0 && m > 0 ? true : throw(ArgumentError("`m` and " + argErrorStr))
+		div(m * n, gcd(m, n))
+	end
+
+	"Given an integer `n`, returns the sum of the proper divisors of `n`"
+	function aliquotSum(n::Integer)
+		n > 0 ? true : throw(ArgumentError(argErrorStr))
+		sum(allFactors(n)[1:end - 1])
+	end
+
 	"Given an integer `n`, returns a Boolean value indicating if the sum of `n`'s proper divisors is equal to `n`"
 	function isPerfect(n::Integer)
-		n > 0 ? true : throw(ArgumentError(argErrorStr))
-		local properDivisors = allFactors(n)
-		pop!(properDivisors)
-		sum(properDivisors) == n
+		aliquotSum(n) == n
 	end
 
 	"Given a positive integer `n`, returns a Boolean value indicating if `n` is a prime number"
