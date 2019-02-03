@@ -1,10 +1,15 @@
 """
-# Description
+#ccPrimes
+## A Primality Functions module written in Julia
+### Description
 Module with efficient boolean-list prime testing function.
-
-# Functions
+### Functions
 * `allFactors`: returns a list of all factors of an integer `n`
 * `allBaseFactors`: returns a list of all factors \$\\{x | 1 \\leq x \\leq \\sqrt{n}\\}\$ of an integer `n`
+* `coPrimes`: checks if two integers `m` and `n` have any non-trivial common factors
+* `cc_gcd`: returns the greatest common divisor of two integers `m` and `n`
+* `cc_lcm`: returns the least common multiple of two integers `m` and `n` by using the formula \$\\lcm(m, n) = \\frac{|m \\times n|}{\\gcd(m, n)}\$
+* `aliquotSum`: r
 * `isPerfect`: checks if the sum of an integer `n`'s proper divisors are equal to the integer
 * `isPrime`: checks the length of either `allBaseFactors` or `allFactors` to see if an integer `n` is prime
 * `primesLessThan`: returns a tuple with a count of and a list of all prime numbers \$\\{p | 1 < p < n\\}\$ up to a limit of `n`
@@ -60,30 +65,41 @@ module ccPrimes
 
 	"Given two integers `m` and `n`, returns a Boolean value indicating if the integers have no common factors"
 	function coPrimes(m, n)
+		#Argument Error check
 		n > 0 && m > 0 ? true : throw(ArgumentError("`m` and " + argErrorStr))
-		length(intersect(allFactors(m), allFactors(n))) == 1
+		#Two integers are coprime if and only if their g.c.d. is 1
+		cc_gcd(m, n) == 1
 	end
 
 	"Given two integers `m` and `n`, returns the greatest common divisor of `m` and `n`"
 	function cc_gcd(m::Integer, n::Integer)
+		#Argument Error check
 		n > 0 && m > 0 ? true : throw(ArgumentError("`m` and " + argErrorStr))
+		#All factors must be checked as it is possible `m = gcd(m, n)` or `n = gcd(m, n)`
 		maximum(intersect(allFactors(m), allFactors(n)))
 	end
 
 	"Given two integers `m` and `n`, returns the least common multiple of `m` and `n`"
 	function cc_lcm(m::Integer, n::Integer)
+		#Argument Error check
 		n > 0 && m > 0 ? true : throw(ArgumentError("`m` and " + argErrorStr))
+		#The least common multiple of two numbers is the product of the numbers
+		#divided by their greatest common divisor
 		div(m * n, gcd(m, n))
 	end
 
 	"Given an integer `n`, returns the sum of the proper divisors of `n`"
 	function aliquotSum(n::Integer)
+		#Argument Error check
 		n > 0 ? true : throw(ArgumentError(argErrorStr))
+		#The `end - 1` makes sure that `n` isn't computed in the sum
 		sum(allFactors(n)[1:end - 1])
 	end
 
 	"Given an integer `n`, returns a Boolean value indicating if the sum of `n`'s proper divisors is equal to `n`"
 	function isPerfect(n::Integer)
+		#No argument error check since aliquotSum() has one already
+		#Perfect numbers have an aliquot sum equal to themselves
 		aliquotSum(n) == n
 	end
 
