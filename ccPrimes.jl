@@ -8,7 +8,7 @@ Module with efficient boolean-list prime testing function.
 * `allBaseFactors`: returns a list of all factors \$\\{x | 1 \\leq x \\leq \\sqrt{n}\\}\$ of an integer `n`
 * `coPrimes`: checks if two integers `m` and `n` have any non-trivial common factors
 * `cc_gcd`: returns the greatest common divisor of two integers `m` and `n`
-* `cc_lcm`: returns the least common multiple of two integers `m` and `n` by using the formula \$\\lcm(m, n) = \\frac{|m \\times n|}{\\gcd(m, n)}\$
+* `cc_lcm`: returns the least common multiple of two integers `m` and `n` by using the formula \$lcm(m, n) = \\frac{|m \\times n|}{\\gcd(m, n)}\$
 * `aliquotSum`: returns the sum of the proper divisors of an integer `n`
 * `isPerfect`: checks if the sum of an integer `n`'s proper divisors are equal to the integer
 * `isPrime`: checks the length of either `allBaseFactors` or `allFactors` to see if an integer `n` is prime
